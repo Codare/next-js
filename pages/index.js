@@ -1,22 +1,19 @@
-import Fetch from 'isomorphic-unfetch';
+import fetch from 'isomorphic-unfetch';
 import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
+import BitCoinPrices from '../components/BitCoinPrices';
 
-const Index = ({
-  bpi: {
-    time: { updated }
-  }
-}) => (
+const Index = ({ bpi }) => (
   <Layout>
     <div className="container">
       <h6>Welcome to the bit coin price index service</h6>
-      {updated}
+      <BitCoinPrices bpid={bpi} />
     </div>
   </Layout>
 );
 
 Index.getInitialProps = async () => {
-  const res = await Fetch('https://api.coindesk.com/v1/bpi/currentprice.json');
+  const res = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json');
 
   const data = await res.json();
 
@@ -26,18 +23,6 @@ Index.getInitialProps = async () => {
     bpi: data
   };
 };
-
-// const tweetPropType = PropTypes.shape({
-//   id: PropTypes.number.isRequired,
-//   text: PropTypes.string.isRequired,
-//   author: PropTypes.shape({
-//     id: PropTypes.number.isRequired,
-//     username: PropTypes.string.isRequired,
-//     firstName: PropTypes.string,
-//     lastName: PropTypes.string,
-//   }).isRequired
-// });
-// PropTypes.oneOfType([null, PropTypes.object])
 
 const indexPropTypes = PropTypes.shape({
   bpi: PropTypes.shape({
